@@ -31,16 +31,16 @@ public class ApiControllerTest {
     protected int port;
 
     @Test
-    public void testCities() throws Exception {
+    public void testCountries() throws Exception {
         logger.debug("testHello begin");
 
         RestTemplate browser1 = new TestRestTemplate();
-        ResponseEntity<Cities> responseEntity = browser1.getForEntity(
-                "http://127.0.0.1:" + port + "/api/cities", Cities.class);
+        ResponseEntity<Countries> responseEntity = browser1.getForEntity(
+                "http://127.0.0.1:" + port + "/api/countries?population=1000000", Countries.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        List<City> data = responseEntity.getBody();
-        assertEquals("München", data.get(1).getLabel());
-        assertEquals(20, data.size());
+        List<Country> data = responseEntity.getBody();
+        assertEquals("Bunyoro", data.get(5).getName());
+        assertEquals(100, data.size());
 
         logger.debug("testHello end");
     }

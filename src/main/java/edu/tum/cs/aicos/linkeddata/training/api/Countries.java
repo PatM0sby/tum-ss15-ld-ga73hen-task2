@@ -13,6 +13,9 @@ import java.util.ArrayList;
  * Created by Pat on 04.05.2015.
  */
 public class Countries extends ArrayList<Country> {
+    public Countries() {
+
+    }
 
     public Countries(String population) throws RepositoryException, MalformedQueryException, QueryEvaluationException {
 
@@ -42,7 +45,7 @@ public class Countries extends ArrayList<Country> {
                         "FILTER(?population >=" + population + ")\n " +
                         "} \n " +
                         "ORDER BY (?population)\n " +
-                        "LIMIT 20\n "
+                        "LIMIT 100\n "
 
 
         );
