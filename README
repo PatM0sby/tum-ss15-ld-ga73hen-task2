@@ -1,0 +1,11 @@
+QUERY:
+Liste von Ländern mit Hauptstadt und Währung
+
+API:
+.../countries
+
+PARAMETER:
+population >= X
+
+EXAMPLE:
+localhost:port/api/countries?population=1000000
