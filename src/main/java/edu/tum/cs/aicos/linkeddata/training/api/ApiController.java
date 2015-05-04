@@ -9,6 +9,7 @@ import org.openrdf.repository.http.HTTPRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
@@ -80,76 +81,8 @@ public class ApiController {
 
 
     @RequestMapping(value = "/countries")
-    public Countries loadCountries() throws RepositoryException, MalformedQueryException, QueryEvaluationException {
-        logger.debug("Loading list of german cities from DBpedia...");
-
-        // Load list of scientists from DBpedia
-        HTTPRepository httpRepository = new HTTPRepository("http://dbpedia.org/sparql");
-        httpRepository.initialize();
-
-        RepositoryConnection repositoryConnection = httpRepository.getConnection();
-
-        TupleQuery tupleQuery = repositoryConnection.prepareTupleQuery(QueryLanguage.SPARQL,
-
-
-                        "SELECT ?name ?capital ?currency\n " +
-                        "WHERE {\n" +
-
-                        "?c a <http://dbpedia.org/ontology/Country> .\n " +
-                        "?c rdfs:label ?name.\n " +
-                        "?c dbpedia-owl:capital ?y.\n " +
-                        "?y rdfs:label ?capital. \n " +
-                        "?c dbpedia-owl:populationTotal ?population.\n " +
-                        "?c dbpedia-owl:currency ?z.\n " +
-                        "?z rdfs:label ?currency.\n " +
-                        "FILTER(langmatches(lang(?name),\"EN\"))\n " +
-                        "FILTER(langmatches(lang(?capital),\"EN\"))\n " +
-                        "FILTER(langmatches(lang(?currency),\"EN\"))\n " +
-                        "FILTER(?population > 1000)\n " +
-                        "} \n " +
-                        "ORDER BY (?population)\n " +
-                        "LIMIT 10000\n "
-
-
-
-
-                        );
-
-        Cities cities = new Cities();
-        Countries countries = new Countries();
-        TupleQueryResult tupleQueryResult = tupleQuery.evaluate();
-        while (tupleQueryResult.hasNext()) {
-            BindingSet bindingSet = tupleQueryResult.next();
-
-            Country country=new Country();
-
-            Binding nameBinding = bindingSet.getBinding("name");
-            Literal nameLiteral = (Literal) nameBinding.getValue();
-            String nameString = nameLiteral.stringValue();
-            country.setName(nameString);
-
-            Binding capitalBinding = bindingSet.getBinding("capital");
-            Literal capitalLiteral = (Literal) capitalBinding.getValue();
-            String capitalString = capitalLiteral.stringValue();
-            country.setCapital(capitalString);
-
-            Binding populationBinding = bindingSet.getBinding("currency");
-            Literal populationLiteral = (Literal) populationBinding.getValue();
-            String populationString = populationLiteral.stringValue();
-            country.setCurrency(populationString);
-
-
-            countries.add(country);
-        }
-        tupleQueryResult.close();
-
-        repositoryConnection.close();
-
-        httpRepository.shutDown();
-
-        logger.debug("Loaded list of german cities from DBpedia.");
-
-        return countries;
+    public Countries loadCountries(@RequestParam(value="population", defaultValue="0") String population) throws RepositoryException, MalformedQueryException, QueryEvaluationException {
+        return new Countries(population);
     }
 
 }
