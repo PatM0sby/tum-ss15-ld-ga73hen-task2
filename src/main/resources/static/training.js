@@ -14,5 +14,15 @@ training.controller('TrainingController', function ($scope, $http) {
     };
     $scope.getCountries();
 
+    $scope.reloadCountries = function () {
+        var parameter =  document.getElementById('input').value;
+
+        $http.get('/api/countries?population='+parameter).success(function (data) {
+            $scope.countries = data;
+        }).error(function (data, status) {
+            window.alert('Status ' + status + ': ' + data.message);
+        });
+    };
+
 });
 
