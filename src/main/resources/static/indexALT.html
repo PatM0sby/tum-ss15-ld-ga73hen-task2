@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DBPedia: Countries by population</title>
+    <title>title</title>
     <script src="webjars/angularjs/1.3.11/angular.js"></script>
     <script src="webjars/jquery/2.1.3/jquery.js"></script>
     <script src="webjars/bootstrap/3.1.1/js/bootstrap.js"></script>
     <link rel="stylesheet" href="webjars/bootstrap/3.1.1/css/bootstrap.css">
     <script src="webjars/angular-ui-bootstrap/0.12.1-1/ui-bootstrap.js"></script>
-    <script src="training.js"></script>
+    <script src="trainingALT.js"></script>
 </head>
 
 <body ng-controller="TrainingController">
@@ -20,26 +20,20 @@
     <div class="jumbotron">
         <h1>Bachelor-Praktikum Linked Data</h1>
 
-        <p>Query: Countries by population including capital & currency.(DBpedia)</p>
+        <p>Example Query: German Cities (DBpedia)</p>
     </div>
-
-    Enter minimal Population: <input type="text" name="input" id="input" value="100000" />
-
 
     <table class="table table-hover">
         <thead>
         <tr>
             <th>Name</th>
-            <th>Capital</th>
-            <th>Currency</th>
-
+            <th>Population</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="country in countries">
-            <td>{{country.name}}</td>
-            <td>{{country.capital}}</td>
-            <td>{{country.currency}}</td>
+        <tr ng-repeat="city in cities">
+            <td><a href="{{city.uri}}" target="_blank">{{city.label}}</a></td>
+            <td>{{city.population}}</td>
         </tr>
         </tbody>
     </table>

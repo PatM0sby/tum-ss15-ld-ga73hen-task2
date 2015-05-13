@@ -29,7 +29,7 @@ public class Countries extends ArrayList<Country> {
         TupleQuery tupleQuery = repositoryConnection.prepareTupleQuery(QueryLanguage.SPARQL,
 
 
-                "SELECT ?name ?capital ?currency\n " +
+                "SELECT distinct ?name ?capital ?currency\n " +
                         "WHERE {\n" +
 
                         "?c a <http://dbpedia.org/ontology/Country> .\n " +
